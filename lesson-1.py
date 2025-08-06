@@ -1,6 +1,7 @@
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import yfinance as yf
 
 # 1
 
@@ -249,3 +250,20 @@ print(diff)
 pct_change = series_monthly_mean.pct_change()
 
 print(pct_change)
+
+# Посчитать среднее, стандартное отклонение и корреляцию для нескольких акций:
+
+symbols = ['TCS.NS', 'HDFCBANK.NS', 'MARUTI.NS']
+weights = [np.array([0.25, 0.35, 0.4])]
+start_date = '2010-01-01'  # define start date
+end_date = datetime.today().strftime('%Y-%m-%d')  # format the current date as a string in 'YYYY-MM-DD' format
+
+price = yf.download(symbols, start=start_date, end=end_date)['Close']
+returns = price.pct_change()
+
+print('Mean')
+print(returns.mean())
+print('\nStandard Deviation')
+print(returns.std())
+print('\nCorrelation Table')
+print(returns.corr())
